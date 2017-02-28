@@ -11,7 +11,8 @@ router.get('/article', function (req, res, next) {
         limit = Number(req.query.limit) || articles.length,
         offset = Number(req.query.offset) || 0;
 
-    res.json(articles.slice(offset, limit + offset))
+    res.json(articles.slice(offset, limit + offset));
+    res.set('Access-Control-Allow-Origin', '*');
 });
 
 router.get('/article/:id', function (req, res, next) {
@@ -21,6 +22,7 @@ router.get('/article/:id', function (req, res, next) {
     if (article) return res.json(article);
 
     res.status(404).json({error: "not found"});
+    res.set('Access-Control-Allow-Origin', '*');
 });
 
 router.post('/article', function (req, res, next) {
@@ -33,6 +35,7 @@ router.post('/article', function (req, res, next) {
     };
     mocks.articles.push(article);
     res.json(article)
+    res.set('Access-Control-Allow-Origin', '*');
 });
 
 router.get('/comment', function (req, res, next) {
@@ -53,7 +56,8 @@ router.get('/comment', function (req, res, next) {
     res.json({
         total: mocks.comments.length,
         records: mocks.comments.slice(offset, limit + offset)
-    })
+    });
+    res.set('Access-Control-Allow-Origin', '*');
 });
 
 router.post('/comment', function (req, res, next) {
@@ -65,11 +69,13 @@ router.post('/comment', function (req, res, next) {
         article : req.body.article
     };
     mocks.comments.push(comment);
-    res.json(comment)
+    res.json(comment);
+    res.set('Access-Control-Allow-Origin', '*');
 });
 
 router.post('/report', function (req, res) {
-    res.json({})
+    res.json({});
+    res.set('Access-Control-Allow-Origin', '*');
 })
 
 module.exports = router;
