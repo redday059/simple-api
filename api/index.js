@@ -3,6 +3,7 @@ var mocks = require('./mock');
 var assign = require('object-assign');
 
 router.get('/article', function (req, res, next) {
+    res.set('Access-Control-Allow-Origin', '*');
     var articles = mocks.articles.map(function (article) {
             return assign({}, article, {
                 text: undefined
@@ -12,20 +13,20 @@ router.get('/article', function (req, res, next) {
         offset = Number(req.query.offset) || 0;
 
     res.json(articles.slice(offset, limit + offset));
-    res.set('Access-Control-Allow-Origin', '*');
 });
 
 router.get('/article/:id', function (req, res, next) {
+    res.set('Access-Control-Allow-Origin', '*');
     var article = mocks.articles.filter(function (article) {
         return article.id == req.params.id
     })[0];
     if (article) return res.json(article);
 
     res.status(404).json({error: "not found"});
-    res.set('Access-Control-Allow-Origin', '*');
 });
 
 router.post('/article', function (req, res, next) {
+    res.set('Access-Control-Allow-Origin', '*');
     var body = req.body;
     var article = {
         text: body.text,
@@ -35,10 +36,10 @@ router.post('/article', function (req, res, next) {
     };
     mocks.articles.push(article);
     res.json(article)
-    res.set('Access-Control-Allow-Origin', '*');
 });
 
 router.get('/comment', function (req, res, next) {
+    res.set('Access-Control-Allow-Origin', '*');
     var aid = req.query.article;
     if (aid) {
         var article = mocks.articles.find(function(article) {
@@ -57,10 +58,10 @@ router.get('/comment', function (req, res, next) {
         total: mocks.comments.length,
         records: mocks.comments.slice(offset, limit + offset)
     });
-    res.set('Access-Control-Allow-Origin', '*');
 });
 
 router.post('/comment', function (req, res, next) {
+    res.set('Access-Control-Allow-Origin', '*');
     var comment = {
         id : Date.now().toString(),
         text : req.body.text,
@@ -70,12 +71,11 @@ router.post('/comment', function (req, res, next) {
     };
     mocks.comments.push(comment);
     res.json(comment);
-    res.set('Access-Control-Allow-Origin', '*');
 });
 
 router.post('/report', function (req, res) {
-    res.json({});
     res.set('Access-Control-Allow-Origin', '*');
+    res.json({});
 })
 
 module.exports = router;
